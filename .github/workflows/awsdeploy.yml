@@ -29,8 +29,10 @@ jobs:
         # uses: shallwefootball/upload-s3-action@bcd7c2408245fd6cd19b5512a473b1a7a8b48a35
         uses: shallwefootball/upload-s3-action@v1.1.3
         with:
-          awsCredentials: 'AWS'
-         regionName: 'ap-south-1'
+          # aws key id
+          aws_key_id: AWS_ACCESS_KEY_ID
+          # aws secret access key
+          aws_secret_access_key: AWS_SECRET_ACCESS_KEY
        
        # aws bucket name
           aws_bucket: s3://website1vik
