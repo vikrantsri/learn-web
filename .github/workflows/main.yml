@@ -5,7 +5,7 @@ on:
       - main #here we choose to deploy only when a push is detected on the main branch
 jobs:
 -  build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
     - name: Configure AWS Credentials
