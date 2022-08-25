@@ -1,31 +1,23 @@
-name: Build & deploy
-
-on:
+name: CI
+on: 
   push:
     branches:
-      - master
-
+      - main #here we choose to deploy only when a push is detected on the main branch
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Cache modules
-        uses: actions/cache@v1
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id:${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key:${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-      - name: Install dependencies
-        run: yarn
-      - name: Build
-        run: yarn build
-      - name: Deploy
-        run: aws s3 sync ./YOUR-BUILD-DIR s3://website1vik
-
+    - uses: actions/checkout@v1
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1 # Use your bucket region here
+        
+    # Here you could add some building steps if you were dealing with some angular/react/Vue...
+    # - name: Build static site
+    #  run: yarn install && npm run-script build
+    
+    - name: Deploy static site to S3 bucket
+      run: aws s3 sync ./thefoldertodeploy/ s3://website1vik --delete
